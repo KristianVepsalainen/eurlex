@@ -260,6 +260,9 @@ elx_make_query_new <- function(resource_type,
   if (!is.null(date_to) && !grepl("^\\d{4}-\\d{2}-\\d{2}$", date_to)){
     stop("'date_to' must be in YYYY-MM-DD format.", call. = TRUE)
   }
+  if (!is.null(date_from) && !is.null(date_to) && date_to < date_from){
+    stop("'date_to' must be on or after 'date_from'.", call. = TRUE)
+  }
   if (include_date_transpos == TRUE & !resource_type %in% c("any","directive")){
     stop("Transposition date currently only available for directives.", call. = TRUE)
   }
