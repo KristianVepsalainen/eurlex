@@ -56,6 +56,13 @@ field_specs <- list(
     incompatible_with = NULL
   ),
   
+  # NOTE: directory_code and directory (below) intentionally share the
+  # same SELECT variable (?directory), mirroring the original
+  # elx_make_query() behavior where both parameters populate a single
+  # ?directory column. When both are TRUE, directory_code's WHERE clause
+  # (simple lookup) is skipped in favor of directory's richer WHERE
+  # clause (includes skos:prefLabel + language filter) — see the
+  # duplicate-prevention check in the main loop below.
   directory_code = list(
     select_vars = "?directory",
     where = "OPTIONAL{?work cdm:resource_legal_is_about_concept_directory-code ?directory.}",
@@ -199,6 +206,7 @@ field_specs <- list(
     incompatible_message = "Legal basis variable incompatible with requested resource type"
   ),
   
+  # See NOTE above directory_code — shares ?directory variable by design
   directory = list(
     select_vars = "?directory",
     where = "OPTIONAL{?work cdm:resource_legal_is_about_concept_directory-code ?directoryx.
@@ -206,6 +214,7 @@ field_specs <- list(
     aggregatable = TRUE,
     incompatible_with = NULL
   )
+
 )
 
 # ---- 2. Pääfunktio ----
