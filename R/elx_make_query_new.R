@@ -394,8 +394,9 @@ elx_make_query_new <- function(resource_type,
     query <- paste0(query, " order by str(", order_var, ")")
   }
   
-  if (!is.null(limit) & is.integer(as.integer(limit))){
-    query <- paste(query, "limit", limit, sep = " ")
+  limit_int <- suppressWarnings(as.integer(limit))
+  if (!is.null(limit) && !is.na(limit_int)) {
+    query <- paste(query, "limit", limit_int)
   }
   
   return(query)
